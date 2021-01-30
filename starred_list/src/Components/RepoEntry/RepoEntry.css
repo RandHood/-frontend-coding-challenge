@@ -9,8 +9,14 @@
 }
 
 .entry:hover {
-    /* color: #59afff; */
     background:rgb(240, 240, 240)
+    /* color: #59afff; */
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: inherit;
+    cursor: default;
 }
 
 .avatar {

@@ -1,3 +1,16 @@
+.page {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-family: 'Open Sans - Bold';
+    font-size: 40px;
+    padding: 4% 6% 1% 6%;
+    /* padding-bottom: 1%; */
+}
+
 .list {
-    padding: 150px;
+    padding: 0 6% 4% 6%;
+    /* padding-top: 0; */
 }

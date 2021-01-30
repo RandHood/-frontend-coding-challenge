@@ -108,8 +108,11 @@ class StarredList extends Component {
             );
         }
         return (
-            <div className="list">
-                {entryElements}
+            <div className="page">
+                <span className="title">Most starred repositories on GitHub the last 30 days:</span>
+                <div className="list">
+                    {entryElements}
+                </div>
             </div>
         );
     }

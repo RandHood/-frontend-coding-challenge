@@ -20,7 +20,7 @@ function RepoEntry(props) {
     }
 
     return (
-      <div className="entry">
+      <a className="entry" href={props.repoUrl} target="_blank">
           <img className="avatar" src={props.ownerAvatar} />
           <div className="infoContainer">
             <span className="repoName">{props.repoName}</span> 
@@ -38,7 +38,7 @@ function RepoEntry(props) {
                 <span className="date">Submitted {diffDays} days ago by {props.ownerName}</span>
             </div>
           </div>
-      </div>
+      </a>
     );
   }
   
