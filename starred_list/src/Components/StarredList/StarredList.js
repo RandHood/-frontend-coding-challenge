@@ -140,7 +140,7 @@ class StarredList extends Component {
         }
         return (
             <div className="page">
-                <span className="title">Most starred repositories on GitHub the last 30 days:</span>
+                <span className="title">Trending Repos:</span>
                 <div className="list">
                     {entryElements}
                 </div>
