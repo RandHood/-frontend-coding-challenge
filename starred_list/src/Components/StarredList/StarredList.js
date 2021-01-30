@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RepoEntry from '../RepoEntry/RepoEntry.js';
 import './StarredList.css';
 
 class StarredList extends Component {
@@ -8,6 +9,7 @@ class StarredList extends Component {
             repoList: undefined,
             page: undefined,
             maxPage: undefined,
+            empty: undefined,
         };
         this.saveFetchedData = this.saveFetchedData.bind(this);
     }
@@ -17,6 +19,7 @@ class StarredList extends Component {
             repoList: [],
             page: 1,
             maxPage: 34,
+            empty: true,
         });
         this.getGithubRepos(this.state.page);
     }
@@ -62,18 +65,51 @@ class StarredList extends Component {
                 ownerName: items[i].owner.login,
                 ownerAvatar: items[i].owner.avatar_url,
                 starsCount: items[i].stargazers_count,
-                issuesCount: items[i].open_issues_count
+                issuesCount: items[i].open_issues_count,
+                createdAt: items[i].created_at,
+                repoUrl: items[i].html_url,
             });
         }
-        this.setState({ repoList });
+        this.setState({ repoList, empty: false });
         console.log(this.state.repoList);
     }
 
     render() {
-        // console.log(this.state.repoList);
+        console.log(this.state);
+        let entryElement = undefined;
+        let entryElements = undefined;
+        if (this.state.empty !== undefined && !this.state.empty) {
+            // const entry = this.state.repoList[0];
+            // entryElement = (
+            //     <RepoEntry
+            //         repoName={entry.repoName}
+            //         repoDescription={entry.repoDescription}
+            //         ownerName={entry.ownerName}
+            //         ownerAvatar={entry.ownerAvatar}
+            //         starsCount={entry.starsCount}
+            //         issuesCount={entry.issuesCount}
+            //         createdAt={entry.createdAt}
+            //         repoUrl={entry.repoUrl}
+            //     />
+            // );
+
+            entryElements = this.state.repoList.map((entry) =>
+                <RepoEntry
+                    repoName={entry.repoName}
+                    repoDescription={entry.repoDescription}
+                    ownerName={entry.ownerName}
+                    ownerAvatar={entry.ownerAvatar}
+                    starsCount={entry.starsCount}
+                    issuesCount={entry.issuesCount}
+                    createdAt={entry.createdAt}
+                    repoUrl={entry.repoUrl}
+                    key={entry.repoName}
+                />
+            );
+        }
         return (
-            <div>
-                Hi
+            <div className="list">
+                {entryElements}
             </div>
         );
     }

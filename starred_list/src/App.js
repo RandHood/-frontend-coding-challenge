@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import StarredList from './Components/StarredList.js';
+import StarredList from './Components/StarredList/StarredList.js';
 
 function App() {
   return (
