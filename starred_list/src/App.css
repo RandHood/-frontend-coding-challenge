@@ -1,5 +1,21 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: url('./Assets/Fonts/Open_Sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans - Light';
+  src: url('./Assets/Fonts/Open_Sans/OpenSans-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans - Bold';
+  src: url('./Assets/Fonts/Open_Sans/OpenSans-SemiBold.ttf');
+}
+
 .App {
-  text-align: center;
+  font-family: 'Open Sans - Light';
+  /* text-align: center; */
 }
 
 .App-logo {
