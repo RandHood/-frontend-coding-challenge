@@ -13,10 +13,50 @@
 .list {
     padding: 0 6% 4% 6%;
     /* padding-top: 0; */
+    /* background-color: cornflowerblue; */
 }
 
 .pagination {
     display: flex;
     flex-direction: row;
-    float: right;
+    margin: auto auto 4% auto;
+}
+
+.back-btn, .back-btnDisabled, .next-btn, .next-btnDisabled {
+    background: none;
+    outline:none;
+    background-size: 45px 45px;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    /* margin: 0 5%; */
+}
+
+/* .back-btn img, .back-btnDisabled img, .next-btn img, .next-btnDisabled img {
+    width: 24px;
+    height: 24px;
+} */
+
+.back-btn, .back-btnDisabled {
+    background-image: url('./../../Assets/Images/arrow-left.png');
+}
+
+.next-btn, .next-btnDisabled {
+    background-image: url('./../../Assets/Images/arrow-right.png');
+}
+
+.back-btn, .next-btn {
+    cursor: pointer;
+}
+
+.back-btnDisabled, .next-btnDisabled {
+    background-color: rgb(201, 201, 201);
+    cursor: default;
+}
+
+.pageNumber {
+    font-family: 'Open Sans';
+    font-size: 20px;
+    margin: 6px 15px;
 }

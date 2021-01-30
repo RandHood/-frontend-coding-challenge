@@ -9,7 +9,7 @@
 }
 
 .entry:hover {
-    background:rgb(240, 240, 240)
+    background:rgb(240, 240, 240);
     /* color: #59afff; */
 }
 
@@ -24,6 +24,7 @@ a:link, a:visited {
     height: 90px;
     margin: auto 20px auto 0px;
     /* margin-right: 20px; */
+    /* overflow: hidden; */
 }
 
 .infoContainer {
@@ -37,6 +38,7 @@ a:link, a:visited {
 .repoName {
     font-family: 'Open Sans - Bold';
     font-size: 22px;
+    cursor: pointer;
     /* margin-top: -6px; */
 }
 

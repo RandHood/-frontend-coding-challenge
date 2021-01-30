@@ -29,13 +29,15 @@ class StarredList extends Component {
     getGithubRepos = async(page) => {
         const today = new Date();
         const priorDate = new Date(today.setDate(today.getDate() - 30));
-        const dateString = priorDate.getFullYear() + '-' + (priorDate.getMonth() + 1) + '-' + priorDate.getDate();
+        const dateString = priorDate.getFullYear() + '-' + ("0" + (priorDate.getDate())).slice(-2) + '-' + ("0" + priorDate.getDate()).slice(-2);
         let url = 'https://api.github.com/search/repositories?q=created:>' + dateString + '&sort=stars&order=desc';
         if (page > 1)
             url += '&page=' + page;
         const APICall = await fetch(url);
         const response = await APICall.json();
         this.saveFetchedData(response.items);
+
+        console.log(url);
 
         // const maxPageSearch = 34;
         // for (let i = 1; i <= maxPageSearch; i++) {
@@ -94,8 +96,10 @@ class StarredList extends Component {
         console.log(this.state);
         // let entryElement = undefined;
         let entryElements = undefined;
-        let backButton = <button className="btnDisabled">Back</button>;
-        let nextButton = <button className="btnDisabled">Next</button>;
+        const leftArrow = './../../Assets/Images/arrow-left.png';
+        const rightArrow = './../../Assets/Images/arrow-right.png';
+        let backButton = <button className="back-btnDisabled"></button>;
+        let nextButton = <button className="next-btnDisabled"></button>;
         let pageNumber = undefined;
 
         if (this.state.empty !== undefined && !this.state.empty) {
@@ -129,10 +133,10 @@ class StarredList extends Component {
 
             pageNumber = this.state.page;
             if (pageNumber > 1)
-                backButton = <button className="btn" onClick={this.goBack}>Back</button>;
+                backButton = <button className="back-btn" onClick={this.goBack}></button>;
 
             if (pageNumber < this.state.maxPage)
-                nextButton = <button className="btn" onClick={this.goNext}>Next</button>;
+                nextButton = <button className="next-btn" onClick={this.goNext}></button>;
         }
         return (
             <div className="page">
@@ -142,7 +146,7 @@ class StarredList extends Component {
                 </div>
                 <div className="pagination">
                     {backButton}
-                    <span>{pageNumber}</span>
+                    <span className="pageNumber">{pageNumber}</span>
                     {nextButton}
                 </div>
             </div>
