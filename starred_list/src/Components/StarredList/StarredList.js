@@ -12,6 +12,8 @@ class StarredList extends Component {
             empty: undefined,
         };
         this.saveFetchedData = this.saveFetchedData.bind(this);
+        this.goBack = this.goBack.bind(this);
+        this.goNext = this.goNext.bind(this);
     }
 
     componentDidMount() {
@@ -57,7 +59,7 @@ class StarredList extends Component {
     }
 
     saveFetchedData(items) {
-        let repoList = this.state.repoList;
+        let repoList = [];
         for (let i = 0; i < items.length; i++) {
             repoList.push({
                 repoName: items[i].name,
@@ -74,10 +76,28 @@ class StarredList extends Component {
         console.log(this.state.repoList);
     }
 
+    goBack() {
+        if (this.state.page > 1) {
+            this.getGithubRepos(this.state.page - 1);
+            this.setState({ page: this.state.page - 1 });
+        }
+    }
+
+    goNext() {
+        if (this.state.page < this.state.maxPage) {
+            this.getGithubRepos(this.state.page + 1);
+            this.setState({ page: this.state.page + 1 });
+        }
+    }
+
     render() {
         console.log(this.state);
-        let entryElement = undefined;
+        // let entryElement = undefined;
         let entryElements = undefined;
+        let backButton = <button className="btnDisabled">Back</button>;
+        let nextButton = <button className="btnDisabled">Next</button>;
+        let pageNumber = undefined;
+
         if (this.state.empty !== undefined && !this.state.empty) {
             // const entry = this.state.repoList[0];
             // entryElement = (
@@ -106,12 +126,24 @@ class StarredList extends Component {
                     key={entry.repoName}
                 />
             );
+
+            pageNumber = this.state.page;
+            if (pageNumber > 1)
+                backButton = <button className="btn" onClick={this.goBack}>Back</button>;
+
+            if (pageNumber < this.state.maxPage)
+                nextButton = <button className="btn" onClick={this.goNext}>Next</button>;
         }
         return (
             <div className="page">
                 <span className="title">Most starred repositories on GitHub the last 30 days:</span>
                 <div className="list">
                     {entryElements}
+                </div>
+                <div className="pagination">
+                    {backButton}
+                    <span>{pageNumber}</span>
+                    {nextButton}
                 </div>
             </div>
         );
