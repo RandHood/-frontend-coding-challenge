@@ -1,0 +1,59 @@
+.entry {
+    width: 100%;
+    /* height: 100px; */
+    padding: 20px;
+    /* border: 1px solid black; */
+    /* background-color: cornflowerblue; */
+    display: flex;
+    flex-direction: row;
+}
+
+.entry:hover {
+    /* color: #59afff; */
+    background:rgb(240, 240, 240)
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    margin: auto 20px auto 0px;
+    /* margin-right: 20px; */
+}
+
+.infoContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto 0;
+    /* justify-content: space-evenly; */
+}
+
+.repoName {
+    font-family: 'Open Sans - Bold';
+    font-size: 22px;
+    /* margin-top: -6px; */
+}
+
+.repoDescription {
+    margin: -16px 0 -24px 0;
+}
+
+.counterContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.starsCounter, .issuesCounter {
+    margin: 10px 10px 10px 0;
+    padding: 3px;
+    border: 1px solid black;
+}
+
+.starsCounter {
+    /* margin-right: 10px; */
+    /* width: 100px; */
+}
+
+.date {
+    margin: auto 0;
+}
