@@ -10,6 +10,7 @@ class StarredList extends Component {
             page: undefined,
             maxPage: undefined,
             empty: undefined,
+            isLoading: undefined,
             loading: undefined,
         };
         this.saveFetchedData = this.saveFetchedData.bind(this);
@@ -25,6 +26,7 @@ class StarredList extends Component {
             page: 1,
             maxPage: 34,
             empty: true,
+            isLoading: true,
             loading: <div className="loading">Loading...</div>,
         });
         this.getGithubRepos(this.state.page);
@@ -39,7 +41,11 @@ class StarredList extends Component {
             url += '&page=' + page;
         const APICall = await fetch(url);
         const response = await APICall.json();
-        this.saveFetchedData(response.items);
+        if (response.items !== undefined && response.items.length > 0) {
+            this.saveFetchedData(response.items);
+        } else {
+            setTimeout(this.getGithubRepos(this.state.page), 5000);
+        }
     }
 
     saveFetchedData(items) {
@@ -58,7 +64,6 @@ class StarredList extends Component {
         }
         this.setState({ repoList, empty: false });
         this.disableLoading();
-        // console.log(this.state.repoList);
     }
 
     goBack() {
@@ -71,18 +76,24 @@ class StarredList extends Component {
 
     goNext() {
         if (this.state.page < this.state.maxPage) {
-            this.disableLoading();
+            this.enableLoading();
             this.getGithubRepos(this.state.page + 1);
             this.setState({ page: this.state.page + 1 });
         }
     }
 
     enableLoading() {
-        this.setState({loading: <div className="loading">Loading...</div>});
+        this.setState({
+            isLoading: true,
+            loading: <div className="loading">Loading...</div>
+        });
     }
 
     disableLoading() {
-        this.setState({loading: undefined});
+        this.setState({
+            isLoading: false,
+            loading: undefined
+        });
     }
 
     render() {
@@ -90,9 +101,9 @@ class StarredList extends Component {
         let entryElements = undefined;
         let backButton = <button className="back-btnDisabled"></button>;
         let nextButton = <button className="next-btnDisabled"></button>;
-        let pageNumber = undefined;
+        let pageNumber = this.state.page === undefined ? undefined : this.state.page;
 
-        if (this.state.empty !== undefined && !this.state.empty) {
+        if (this.state.empty !== undefined && !this.state.empty && !this.state.isLoading) {
             entryElements = this.state.repoList.map((entry) =>
                 <RepoEntry
                     repoName={entry.repoName}
