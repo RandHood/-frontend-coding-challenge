@@ -1,11 +1,13 @@
 import './RepoEntry.css';
 
 function RepoEntry(props) {
+    // calculating how many days ago was the repo created
     const date1 = new Date();
     const date2 = new Date(props.createdAt);
     const diffTime = Math.abs(date2 - date1);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+    // converting the stars and issues counts into 1k format instead of 1000
     let starsCount = props.starsCount;
     if (starsCount >= 1000) {
         starsCount = Math.floor(starsCount / 100);

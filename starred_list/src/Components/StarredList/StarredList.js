@@ -20,7 +20,9 @@ class StarredList extends Component {
         this.disableLoading = this.disableLoading.bind(this);
     }
 
+    // this method is called once the component is mounted
     componentDidMount() {
+        // setting the initial state values
         this.setState({
             repoList: [],
             page: 1,
@@ -29,16 +31,24 @@ class StarredList extends Component {
             isLoading: true,
             loading: <div className="loading">Loading...</div>,
         });
+
+        // calling the api to retrieve the list
         this.getGithubRepos(this.state.page);
     }
 
+    // retrieving the repos from github
     getGithubRepos = async(page) => {
+        // first, we get the date 30 days ago
         const today = new Date();
         const priorDate = new Date(today.setDate(today.getDate() - 30));
         const dateString = priorDate.getFullYear() + '-' + ("0" + (priorDate.getDate())).slice(-2) + '-' + ("0" + priorDate.getDate()).slice(-2);
+
+        // second, we construct the url using the date, and adding page attribute if we are in pages greater than the first
         let url = 'https://api.github.com/search/repositories?q=created:>' + dateString + '&sort=stars&order=desc';
         if (page > 1)
             url += '&page=' + page;
+        
+        // third, we call the api and try to save the fetched data from the response, if the response doesn't have data we try again in 5 seconds
         const APICall = await fetch(url);
         const response = await APICall.json();
         if (response.items !== undefined && response.items.length > 0) {
@@ -48,7 +58,9 @@ class StarredList extends Component {
         }
     }
 
+    // saving the fetched data
     saveFetchedData(items) {
+        // taking the relevant data
         let repoList = [];
         for (let i = 0; i < items.length; i++) {
             repoList.push({
@@ -62,26 +74,35 @@ class StarredList extends Component {
                 repoUrl: items[i].html_url,
             });
         }
+
+        // saving the data into a list in the state, and updating the empty list flag
         this.setState({ repoList, empty: false });
+
+        // disabling loading after the data has been saved successfully
         this.disableLoading();
     }
 
+    // go back to the previous page and retrieving its data
     goBack() {
         if (this.state.page > 1) {
+            // we enable loading while we fetch
             this.enableLoading();
             this.getGithubRepos(this.state.page - 1);
             this.setState({ page: this.state.page - 1 });
         }
     }
 
+    // go next to the following page and retrieving its data
     goNext() {
         if (this.state.page < this.state.maxPage) {
+            // we enable loading while we fetch
             this.enableLoading();
             this.getGithubRepos(this.state.page + 1);
             this.setState({ page: this.state.page + 1 });
         }
     }
 
+    // enabling loading by setting flag and html element
     enableLoading() {
         this.setState({
             isLoading: true,
@@ -89,6 +110,7 @@ class StarredList extends Component {
         });
     }
 
+    // disabling loading by clearing flag and html element
     disableLoading() {
         this.setState({
             isLoading: false,
@@ -97,13 +119,15 @@ class StarredList extends Component {
     }
 
     render() {
-        // console.log(this.state);
+        // setting initial values
         let entryElements = undefined;
         let backButton = <button className="back-btnDisabled"></button>;
         let nextButton = <button className="next-btnDisabled"></button>;
         let pageNumber = this.state.page === undefined ? undefined : this.state.page;
 
+        // once we save new data we can display them in the page
         if (this.state.empty !== undefined && !this.state.empty && !this.state.isLoading) {
+            // for each repo retrieved we create a RepoEntry to display its info
             entryElements = this.state.repoList.map((entry) =>
                 <RepoEntry
                     repoName={entry.repoName}
@@ -118,6 +142,7 @@ class StarredList extends Component {
                 />
             );
 
+            // activating go next and go back buttons after we display new repos
             pageNumber = this.state.page;
             if (pageNumber > 1)
                 backButton = <button className="back-btn" onClick={this.goBack}></button>;
