@@ -1,16 +1,12 @@
 .entry {
     width: 100%;
-    /* height: 100px; */
     padding: 20px;
-    /* border: 1px solid black; */
-    /* background-color: cornflowerblue; */
     display: flex;
     flex-direction: row;
 }
 
 .entry:hover {
     background:rgb(240, 240, 240);
-    /* color: #59afff; */
 }
 
 a:link, a:visited {
@@ -23,8 +19,6 @@ a:link, a:visited {
     width: 90px;
     height: 90px;
     margin: auto 20px auto 0px;
-    /* margin-right: 20px; */
-    /* overflow: hidden; */
 }
 
 .infoContainer {
@@ -32,14 +26,12 @@ a:link, a:visited {
     display: flex;
     flex-direction: column;
     margin: auto 0;
-    /* justify-content: space-evenly; */
 }
 
 .repoName {
     font-family: 'Open Sans - Bold';
     font-size: 22px;
     cursor: pointer;
-    /* margin-top: -6px; */
 }
 
 .repoDescription {
@@ -58,8 +50,7 @@ a:link, a:visited {
 }
 
 .starsCounter {
-    /* margin-right: 10px; */
-    /* width: 100px; */
+
 }
 
 .date {
