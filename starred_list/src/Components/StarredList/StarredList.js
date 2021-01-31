@@ -10,10 +10,13 @@ class StarredList extends Component {
             page: undefined,
             maxPage: undefined,
             empty: undefined,
+            loading: undefined,
         };
         this.saveFetchedData = this.saveFetchedData.bind(this);
         this.goBack = this.goBack.bind(this);
         this.goNext = this.goNext.bind(this);
+        this.enableLoading = this.enableLoading.bind(this);
+        this.disableLoading = this.disableLoading.bind(this);
     }
 
     componentDidMount() {
@@ -22,6 +25,7 @@ class StarredList extends Component {
             page: 1,
             maxPage: 34,
             empty: true,
+            loading: <div className="loading">Loading...</div>,
         });
         this.getGithubRepos(this.state.page);
     }
@@ -36,28 +40,6 @@ class StarredList extends Component {
         const APICall = await fetch(url);
         const response = await APICall.json();
         this.saveFetchedData(response.items);
-
-        console.log(url);
-
-        // const maxPageSearch = 34;
-        // for (let i = 1; i <= maxPageSearch; i++) {
-        //     if (i > 1)
-        //         url += '&page=' + i;
-        //     const APICall = await fetch(url);
-        //     const response = await APICall.json();
-        //     if (response.items !== undefined)
-        //         this.saveFetchedData(response.items);
-        // }
-        // while (!finishedFetching) {
-        //     if (page > 1)
-        //         url += '&page=' + page;
-        //     const APICall = await fetch(url);
-        //     const response = await APICall.json();
-        //     this.saveFetchedData(response.items);
-        //     if (response.items)
-        // }
-
-        
     }
 
     saveFetchedData(items) {
@@ -75,11 +57,13 @@ class StarredList extends Component {
             });
         }
         this.setState({ repoList, empty: false });
-        console.log(this.state.repoList);
+        this.disableLoading();
+        // console.log(this.state.repoList);
     }
 
     goBack() {
         if (this.state.page > 1) {
+            this.enableLoading();
             this.getGithubRepos(this.state.page - 1);
             this.setState({ page: this.state.page - 1 });
         }
@@ -87,36 +71,28 @@ class StarredList extends Component {
 
     goNext() {
         if (this.state.page < this.state.maxPage) {
+            this.disableLoading();
             this.getGithubRepos(this.state.page + 1);
             this.setState({ page: this.state.page + 1 });
         }
     }
 
+    enableLoading() {
+        this.setState({loading: <div className="loading">Loading...</div>});
+    }
+
+    disableLoading() {
+        this.setState({loading: undefined});
+    }
+
     render() {
-        console.log(this.state);
-        // let entryElement = undefined;
+        // console.log(this.state);
         let entryElements = undefined;
-        const leftArrow = './../../Assets/Images/arrow-left.png';
-        const rightArrow = './../../Assets/Images/arrow-right.png';
         let backButton = <button className="back-btnDisabled"></button>;
         let nextButton = <button className="next-btnDisabled"></button>;
         let pageNumber = undefined;
 
         if (this.state.empty !== undefined && !this.state.empty) {
-            // const entry = this.state.repoList[0];
-            // entryElement = (
-            //     <RepoEntry
-            //         repoName={entry.repoName}
-            //         repoDescription={entry.repoDescription}
-            //         ownerName={entry.ownerName}
-            //         ownerAvatar={entry.ownerAvatar}
-            //         starsCount={entry.starsCount}
-            //         issuesCount={entry.issuesCount}
-            //         createdAt={entry.createdAt}
-            //         repoUrl={entry.repoUrl}
-            //     />
-            // );
-
             entryElements = this.state.repoList.map((entry) =>
                 <RepoEntry
                     repoName={entry.repoName}
@@ -141,6 +117,7 @@ class StarredList extends Component {
         return (
             <div className="page">
                 <span className="title">Trending Repos:</span>
+                {this.state.loading}
                 <div className="list">
                     {entryElements}
                 </div>

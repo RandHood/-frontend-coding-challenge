@@ -3,6 +3,11 @@
     flex-direction: column;
 }
 
+.loading {
+    text-align: center;
+    font-size: 160%;
+}
+
 .title {
     font-family: 'Open Sans - Bold';
     font-size: 40px;
