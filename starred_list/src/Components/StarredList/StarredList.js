@@ -41,10 +41,11 @@ class StarredList extends Component {
         // first, we get the date 30 days ago
         const today = new Date();
         const priorDate = new Date(today.setDate(today.getDate() - 30));
-        const dateString = priorDate.getFullYear() + '-' + ("0" + (priorDate.getDate())).slice(-2) + '-' + ("0" + priorDate.getDate()).slice(-2);
-
+        const dateString = priorDate.getFullYear() + '-' + ("0" + (priorDate.getMonth() + 1)).slice(-2) + '-' + ("0" + priorDate.getDate()).slice(-2);
+        
         // second, we construct the url using the date, and adding page attribute if we are in pages greater than the first
         let url = 'https://api.github.com/search/repositories?q=created:>' + dateString + '&sort=stars&order=desc';
+        console.log(url);
         if (page > 1)
             url += '&page=' + page;
         
